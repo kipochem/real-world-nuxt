@@ -95,3 +95,17 @@ npm run dev
 - in layout/default.vue, import the NavBar
 - in layout/default.vue, register the NavBar
 - in layout/default.vue, use the NavBar by adding it to the template
+
+# 6 Universal mode
+
+see explanation 0:31 - 4:11
+
+- build the nuxt app with 'npm run build' for production mode.
+  nuxt creates a js-file for each page, splitting them this way into chunks and making initial load faster
+  because only the needed js file will be loaded
+- start the production level app with 'npm start'
+  -- when loading the page with JS disabled, the pages will load anyway, because the HTML was rendered serverside and sent to the browser
+  -- once JS gets enabled. js gets loaded, vue instantiated and the page hydrated
+- smart prefetching: nuxt-links (in the template) only get loaded when they are visible on the page in the viewport, mean
+  when the page is scrolled somewhere where the link is not visible, the correponding page is not fetched. once the page scrolls
+  so the link is visible, it will automatically fetch the correponding page from the server
