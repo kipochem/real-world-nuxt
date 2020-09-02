@@ -109,3 +109,25 @@ see explanation 0:31 - 4:11
 - smart prefetching: nuxt-links (in the template) only get loaded when they are visible on the page in the viewport, mean
   when the page is scrolled somewhere where the link is not visible, the correponding page is not fetched. once the page scrolls
   so the link is visible, it will automatically fetch the correponding page from the server
+
+# 7 SEO in Nuxt with vue meta
+
+https://vue-meta.nuxtjs.org/
+
+INFO: vue components do not provide adding meta tags. With the vue-meta library they can be added
+
+- in pages/index.vue, add a head() function returning the title and the meta tags (03:35)
+- in pages/inde.vue, copy the whole script tag and paste it into pages/create.vue and adapt the title and description (04:01)
+  = eliminate title duplication on each page
+- in pages/index.vue, first copy the whole head() method, then adapt the title string and delete the meta completely (05:20)
+- in layouts/default.vue, paste in the head() method (05:26)
+  = make meta of index.vue the default one. this way, when no meta is added to another page, it takes the default one automatically
+- in layouts/default.vue, adapt the title to titleTemplate which every page should use. %s takes in the title from each page (05:42)
+- in pages/create.vue, adapt the title, so that only the individual part stays (06:14)
+  INFO:thanks to universal mode, the meta tags for each page are rendered serverside, so even if js is turned off, the meta tags will still be displayed
+
+<figure class="video_container">
+  <video controls="true" allowfullscreen="true">
+    <source src="test.mp4#t=10" type="video/mp4">
+  </video>
+</figure>
