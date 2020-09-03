@@ -1,5 +1,17 @@
 # real-world-nuxt
 
+# Table of Contents
+1. [Example](#example)
+2. [Example2](#example2)
+3. [Third Example](#third-example)
+4. [Fourth Example](#fourth-examplehttpwwwfourthexamplecom)
+
+
+## Example
+## Example2
+## Third Example
+## [Fourth Example](http://www.fourthexample.com) 
+
 ## Build Setup
 
 ```bash
@@ -131,3 +143,17 @@ INFO: vue components do not provide adding meta tags. With the vue-meta library 
     <source src="test.mp4#t=10" type="video/mp4">
   </video>
 </figure>
+
+# 8 File-based Routing
+
+- run the dev server 'npm run dev'
+###  <u>automatic router path update (showcase)</u>
+- open .nuxt/router.js and go to the /pages folder
+- inside /pages create a new folder 'create'
+- move the create.vue component inside the create folder and watch __the routes update their paths automatically__
+- adapt the path in the component NavBar.vue manually
+
+###  <u>creating dynamic routes in nuxt</u>
+- dynamic routes in nuxt start with an underscore: inside pages/event create a dynamic page '_id'. This will create automatically a dynamic route in .nuxt/router.js
+
+###  <u>Adding SEO to a dynamic route</u>
