@@ -140,7 +140,7 @@ INFO: vue components do not provide adding meta tags. With the vue-meta library 
 
 <figure class="video_container">
   <video controls="true" allowfullscreen="true">
-    <source src="test.mp4#t=10" type="video/mp4">
+    <source src="test1.mp4" type="video/mp4">
   </video>
 </figure>
 
@@ -156,4 +156,73 @@ INFO: vue components do not provide adding meta tags. With the vue-meta library 
 ###  <u>creating dynamic routes in nuxt</u>
 - dynamic routes in nuxt start with an underscore: inside pages/event create a dynamic page '_id'. This will create automatically a dynamic route in .nuxt/router.js
 
-###  <u>Adding SEO to a dynamic route</u>
+###  <u>Adding SEO to a dynamic route</u> (03:19 - 04:19)
+- copy/paste the script section from create.vue to _id.vue
+
+### <u>Default page when dynamic route path doesn't contain id</u> (04:19 - 04:35)
+- create a _index.vue for the dynamic route path
+
+### <u>How to create root dynamic route</u> (04:35 - 05:06)
+- create _username.vue at the root route
+
+### <u>Nested dynamic routes</u> (05:06 - 05:38)
+- create a folder with an leading underscore
+- place in the index.vue without underscore when no parameter
+- place in the following.vue for the dynamic route
+
+### <u>Customize Error page</u> (05:38 - )
+- when a route doesn't exist, nuxt shows a default error page
+- in folder layouts, create new layout error.vue
+- copy/paste the code of error.vue from the template finishing code
+- script part: component takes in the error Object via prop. the computed properties 'statusCode' and 'message' take the error Object and return parts of its inside. The head() method takes the error message and puts it in the title
+- tempalte part: svg to show an exclamation mark, div to print the error message, conditional p tag which only appears if the status code is 404 and shows in this case the link to the homepage
+- SPA normally don't give back proper status codes, they always load up the index.html, nuxt does, it gives back 404 if the page doesn't exist through server side rendering (SSR)
+
+# 9 API calls with Axios in Nuxt
+
+## install necessary packages
+- install json server __npm install -g json-server__
+- download db.json from resources
+- turn on the API server __json-server --watch db.json__
+- if not already installed, install axios for nuxt: __npm install @nuxtjs/axios__, then in the nuxt.config.js add it as a module (03:00)
+- check out doc for nuxtjs/axios: www.axios.nuxtjs.org
+
+## implement API call
+- the API call should be done from the default page index.vue. normally API calls get triggered via the created() lifecycle hook. nuxt has a few own lifecycle hook, here we use __asyncData()__
+- in pages/index.vue, add the lifecycle hook asyncData(context). The context uses the axios getrequiest to call the db and when the response arrives, it should just return the object with the events. This object will be __automatically__ merged with the component data, so it can be read from within the template. no data has to be declared like in vue (05:52)
+- the context can be simplified by using just $axios thanks to ES6 destructuring (06:00)
+
+## display API data on the page
+- in components folder, create EventCard.vue
+- copy paste the code for the component from the resources
+- in pages/index.vue, use the EventCard.vue component: add the EventCard in the template with a loop (07:36), import EventCard (07:41) and register it (07:45)
+
+## adding error handling when data caanot be fetched
+- per default, a nuxt error appears
+- in pages/index.vue, add the error argument to asyncData() (08:25)
+- catch the error by setting the statusCode and message and will redirect automatically to the previously created error page (08:44)
+
+# 10 async/await and progress bar in Nuxt
+
+## Replacing classic promises (.then) with async/await promises
+ - problem with Promises: multiple nested promises create complexity
+ - avoid nesting with async/await
+ - in pages/index.vue, cut out error handling for now
+ - in pages/index.vue, add async in front of the function and create a const which awaits the response of axios. Once the promise is resolved via await, get the db entries. once the response is saved in the const 'response', return the events objectwhich gets automatically merged into data() and is this available for the template
+ - further simplification through ES6 destructuring: replace response with the data object. this way the return event is just the data object
+ - add back the error handling: wrap the body of asyncData into a try block and add a catch block adding the error logic which was cut out before
+
+ ## Adding API call when viewing a single event
+ - copy the asyncData() method from pages/index.vue into pages/event/_id.vue
+ - add a params property as we need access to the id
+ - adapt the API call to use the params.id
+ - adapt the events response to event
+ - remove the id() computed property
+ - in the head() method, the title and meta-content should display the event title instead of the id
+ - adapt the template by printing out now the event.title instead of the id
+
+ ## Adding a progress bar
+ - add the progress bar color in the nuxt.config.js file. It is already working, it is just invisible. Now by changing the color we just make it visible
+ - add a delay of 2secs in they json-server to see the progress bar: stop the json-server and restart with <br>
+ __json-server --watch db.json --delay 2000__
+
