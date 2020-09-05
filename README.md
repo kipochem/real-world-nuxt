@@ -226,3 +226,40 @@ INFO: vue components do not provide adding meta tags. With the vue-meta library 
  - add a delay of 2secs in they json-server to see the progress bar: stop the json-server and restart with <br>
  __json-server --watch db.json --delay 2000__
 
+ # 11 Using Vuex with Nuxt
+
+ ## Reorganizing API calls
+
+ ### create API calls
+ - create folder 'services' in root and inside a new file EventService.js (01:17)
+ - in services/EventService.js, import axios and add basic axios configuration, saving it in a const (01:25)
+ - in services/EventService.js, create two getter methods, one calling all events, the other calling a specific event by id (01:44)
+
+ ### use created API calls
+ - in pages/index.vue, import the EventService (02:02)
+ - in pages/index.vue, replace in asyncData() the axios call by the EventService.getEvents() (02:12) and remove the axios argument from asyncData
+- in pages/_id.vue, import the EventService (02:24)
+ -  in pages/_id.vue, replace in asyncData() the axios call by the EventService.getEvent() sending in the params id (02:35) and remove the axios argument from asyncData
+
+ ## use Vuex on Event List Page
+ - in the store folder, create a new module 'events.js'
+ - in store/events.js, import EventService and create a state of 'events' initializing it with an empty array, wrapping it into an anonymous function to avoid to share that state all over the app (04:59)
+- in store/events.js, create a mutation which sets the events in the state (05:07)
+- in store/events.js, create an action which fetches the events via the EventService and commits the response to the mutation (05:25)
+- in pages/index.vue, remove the EventService import (05:35) and import mapState instead (05:37)
+- in pages/index.vue, replace the asyncData hook by the fetch hook (05:44)
+- in pages/index.vue, send in as new first argument the store (05:49) and remove all the return values as fetch in contrary to asyncData doesn't return anything (05:55) and call from the events module the fetchEvents action (06:00)
+- in pages/index.vue, add the computed property mapState to get the events state property from the events.js module (06:20)
+
+## use Vuex on Event Show Page
+- in store/events.js, create an empty event object (07:02)
+- in store/events.js, create a SET_EVENT mutation (07:11)
+- in store/events.js, create a fetchEvent action sending in the id of the event we want to fetch (07:31)
+- in pages/_id.vue, replace EventService import with mapState (07:41)
+- in pages/_id.vue, replace the asyncData hook by the fetch hook, sending in additionally the store (07:49)
+- in pages/_id.vue, in fetch, remove the return values (07:56) and dispatch the fetchEvent action sending in the id parameter (08:03)
+- in pages/_id.vue, add the computed property mapState to get the event state property from the events.js module (08:13)
+
+### flesh out Event Show Page
+- in pages/_id.vue, add the template code and CSS from the resources
+
