@@ -263,3 +263,45 @@ INFO: vue components do not provide adding meta tags. With the vue-meta library 
 ### flesh out Event Show Page
 - in pages/_id.vue, add the template code and CSS from the resources
 
+# 12 Universal Mode Deployment
+
+## 12.1 Creating an API Server(moving the local json-server) 
+
+### Using remote db.json instead of the local one
+- json from the following link: <br> 
+https://github.com/Code-Pop/real-world-nuxt/blob/master/db.json
+
+- remote json-server which gets served up with the remote db.json: <br>
+http://my-json-server.typicode.com/Code-Pop/real-world-nuxt/
+
+- link remote db.json instead local one: <br>
+in services/EventService.js, update just the baseURL (02:50)
+
+- start up development server to check: <br>
+__npm run dev__
+
+## 12.2 Ensure that production mode works locally
+- build for production mode: <br>
+__npm run build__ <br>
+__ATTENTION__: after the build no changes can be made. if changes are made, afterwards a new build has to be done
+- in .nuxt folder, we can now find a 'client' folder and a 'server' folder.
+- run the app in production mode: <br>
+__npm run start__
+
+## 12.3 Deploying on server (Heroku)
+__INFO__: Nuxt can be deployed on any server __that can run Node__
+- server needs to be able to run the following commands: <br>
+__npm install__ to install the dependecies <br>
+__npm run build__ to build the app <br>
+__npm run start__ to start the node server <br>
+
+__INFO__: here we use __Heroku__ as it supports the node server and is for free
+
+### Steps to deploy
+- create the app on Heroku: <br>
+__heroku create__ <br>
+this will give the URL to access the application and the Git repo where the code has to be pushed
+- config Heroku: enable heroku to __build__ the project: <br>
+__heroku config:set NPM_CONFIG_PRODUCTION=false__
+- config Heroku: set ip where Heroku can listen for requests: <br>
+__heroku config:set HOST=0.0.0.0
